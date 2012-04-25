@@ -6,9 +6,12 @@
 ; agreeing to be bound by the terms of this license.  You must not
 ; remove this notice, or any other, from this software.
 
-(ns himera.test.core
-  (:use [himera.core])
+(ns himera.server.test.cljs
+  (:use [himera.server.cljs])
   (:use [clojure.test]))
 
-(deftest replace-me ;; FIXME: write
-  (is false "No tests have been written."))
+(deftest test-compilation
+  (are [expr opt pp expected] (= expected (compilation expr opt pp))
+       '(range 1 10) :simple true {:result "cljs.core.range.call(null,1,10)", :status 200}
+       '(asdf 1 10) :simple true {:result "cljs.user.asdf.call(null,1,10)", :status 200}))
+
